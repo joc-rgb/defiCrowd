@@ -1,41 +1,25 @@
-import React from 'react';
-import {
-  ChakraProvider,
-  Box,
-  Text,
-  Link,
-  VStack,
-  Code,
-  Grid,
-  theme,
-} from '@chakra-ui/react';
-import { ColorModeSwitcher } from './ColorModeSwitcher';
+import { React, useState } from 'react';
+import { Box } from '@chakra-ui/react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import AnimatedRoutes from './components/AnimatedRoutes';
+import { AccountContext } from './Helper/Context';
 import { Logo } from './Logo';
+import Nav from './components/Nav';
 
 function App() {
+  const web3storage = process.env.REACT_APP_WEB3STORAGE_TOKEN;
+  console.log(web3storage);
+  const [accounts, setAccounts] = useState('');
+
   return (
-    <ChakraProvider theme={theme}>
-      <Box textAlign="center" fontSize="xl">
-        <Grid minH="100vh" p={3}>
-          <ColorModeSwitcher justifySelf="flex-end" />
-          <VStack spacing={8}>
-            <Logo h="40vmin" pointerEvents="none" />
-            <Text>
-              Edit <Code fontSize="xl">src/App.js</Code> and save to reload.
-            </Text>
-            <Link
-              color="teal.500"
-              href="https://chakra-ui.com"
-              fontSize="2xl"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learn Chakra
-            </Link>
-          </VStack>
-        </Grid>
+    <AccountContext.Provider value={{ accounts, setAccounts }}>
+      <Box w="100%" h="100%" overflow="hidden" p="10px">
+        <Router>
+          <Nav />
+          <AnimatedRoutes />
+        </Router>
       </Box>
-    </ChakraProvider>
+    </AccountContext.Provider>
   );
 }
 
